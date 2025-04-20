@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1000</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Bruteforce Wallet Generator</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="generalTab">
+       <attribute name="title">
+        <string>Основные</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="wordsFileLabel">
+            <property name="text">
+             <string>Файл слов:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="wordsFileEdit"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="loadWordsButton">
+            <property name="text">
+             <string>Обзор</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="addressesFileLabel">
+            <property name="text">
+             <string>Файл адресов:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="addressesFileEdit"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="loadAddressesButton">
+            <property name="text">
+             <string>Обзор</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_checkAddress">
+          <item>
+           <widget class="QLabel" name="checkAddressLabel">
+            <property name="text">
+             <string>Проверить адрес:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="checkAddressEdit"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="checkAddressButton">
+            <property name="text">
+             <string>Проверить</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QPushButton" name="startButton">
+            <property name="text">
+             <string>Старт</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="stopButton">
+            <property name="text">
+             <string>Стоп</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pauseButton">
+            <property name="text">
+             <string>Пауза</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="validWalletsTable">
+          <property name="columnCount">
+           <number>3</number>
+          </property>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>200</number>
+          </attribute>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="settingsTab">
+       <attribute name="title">
+        <string>Настройки</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QLabel" name="threadsLabel">
+            <property name="text">
+             <string>Количество потоков:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="threadsSpinBox">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>64</number>
+            </property>
+            <property name="value">
+             <number>4</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QCheckBox" name="useGpuCheckBox">
+            <property name="text">
+             <string>Использовать GPU</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="gpuWorkSizeLabel">
+            <property name="text">
+             <string>Размер рабочей группы:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="gpuWorkSizeComboBox"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QLabel" name="bloomFilterSizeLabel">
+            <property name="text">
+             <string>Размер фильтра Блума:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="bloomFilterSizeSpinBox">
+            <property name="minimum">
+             <number>100000</number>
+            </property>
+            <property name="maximum">
+             <number>100000000</number>
+            </property>
+            <property name="value">
+             <number>10000000</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="recommendBloomSettings">
+            <property name="text">
+             <string>Рекомендовать настройки</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QLabel" name="bloomFalsePositiveLabel">
+            <property name="text">
+             <string>Вероятность ложного срабатывания (%):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="bloomFalsePositiveSpinBox">
+            <property name="minimum">
+             <double>0.001000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>1.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QLabel" name="logFileLabel">
+            <property name="text">
+             <string>Файл логов:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="logFileEdit">
+            <property name="text">
+             <string>bruteforce_log.txt</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="browseLogFileButton">
+            <property name="text">
+             <string>Обзор</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QLabel" name="autoSaveLabel">
+            <property name="text">
+             <string>Автосохранение результатов:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="autoSavePathEdit">
+            <property name="text">
+             <string>results_log.txt</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="browseAutoSaveButton">
+            <property name="text">
+             <string>Обзор</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <item>
+           <widget class="QLabel" name="bip39LanguageLabel">
+            <property name="text">
+             <string>Язык BIP-39:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="bip39LanguageComboBox">
+            <item>
+             <property name="text">
+              <string>English</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <item>
+           <widget class="QLabel" name="addressTypeLabel">
+            <property name="text">
+             <string>Тип адреса:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="addressTypeComboBox">
+            <item>
+             <property name="text">
+              <string>Auto</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Legacy</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>SegWit</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Bech32</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="applySettingsButton">
+          <property name="text">
+           <string>Применить</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="logsTab">
+       <attribute name="title">
+        <string>Логи</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QTextEdit" name="logTextEdit">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_status">
+      <item>
+       <widget class="QProgressBar" name="progressBar">
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_status">
+        <item>
+         <widget class="QLabel" name="statusLabel">
+          <property name="text">
+           <string>Статус: Готов</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="processedLabel">
+          <property name="text">
+           <string>Обработано: 0</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="speedLabel">
+          <property name="text">
+           <string>Скорость: 0 фраз/с</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="badGoodLabel">
+          <property name="text">
+           <string>Плохие: 0, Хорошие: 0</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_monitor">
+        <item>
+         <widget class="QLabel" name="systemMonitorLabel">
+          <property name="text">
+           <string>CPU: Н/Д, GPU: Н/Д, Temp: Н/Д, GPU Memory: Н/Д, Kernel Time: 0 s</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="memoryLabel">
+          <property name="text">
+           <string>Память: 0/0 MB</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1000</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuLanguage">
+    <property name="title">
+     <string>Язык</string>
+    </property>
+    <addaction name="actionEnglish"/>
+    <addaction name="actionRussian"/>
+   </widget>
+   <addaction name="menuLanguage"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionEnglish">
+   <property name="text">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionRussian">
+   <property name="text">
+    <string>Русский</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
