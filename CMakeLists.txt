@@ -1,67 +1,80 @@
-cmake_minimum_required(VERSION 3.16)
-project(WalletGenerator LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.20)
+project(BrainFlyer LANGUAGES CXX)
 
+# Указываем стандарт C++
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Включаем автоматическую генерацию moc-файлов для Qt
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 COMPONENTS Core Gui Widgets Concurrent REQUIRED)
-if (NOT Qt6_FOUND)
-    message(FATAL_ERROR "Qt6 not found. Please install Qt6 or set Qt6_DIR.")
-endif()
+# Находим Qt6
+find_package(Qt6 COMPONENTS Core Gui Widgets REQUIRED)
 
+# Находим OpenCL
 find_package(OpenCL REQUIRED)
-if (NOT OpenCL_FOUND)
-    message(FATAL_ERROR "OpenCL not found. Please install OpenCL libraries.")
+
+# Путь к secp256k1
+set(SECP256K1_INCLUDE_DIR "C:/secp256k1/include")
+set(SECP256K1_LIBRARY_DIR "D:/brainflyer/build")
+set(SECP256K1_LIBRARY "${SECP256K1_LIBRARY_DIR}/secp256k1.lib")
+
+# Проверяем наличие secp256k1
+if(NOT EXISTS "${SECP256K1_INCLUDE_DIR}/secp256k1.h")
+    message(FATAL_ERROR "secp256k1 headers not found at ${SECP256K1_INCLUDE_DIR}. Please install secp256k1.")
+endif()
+if(NOT EXISTS "${SECP256K1_LIBRARY}")
+    message(FATAL_ERROR "secp256k1 library not found at ${SECP256K1_LIBRARY}. Please build and install secp256k1.")
 endif()
 
+# Исходные файлы
 set(SOURCES
     main.cpp
-    mainwindow.cpp
-    bruteforce.cpp
+    BrainFlyer.cpp
+    BloomFilter.cpp
 )
 
+# Заголовочные файлы
 set(HEADERS
-    mainwindow.h
-    bruteforce.h
+    BrainFlyer.h
 )
 
-set(UI_FILES
-    mainwindow.ui
-)
+# Добавляем исполняемый файл
+add_executable(BrainFlyer ${SOURCES} ${HEADERS})
 
-set(RESOURCE_FILES
-    resources.qrc
-)
-
-add_executable(WalletGenerator WIN32
-    ${SOURCES}
-    ${HEADERS}
-    ${UI_FILES}
-    ${RESOURCE_FILES}
-)
-
-target_include_directories(WalletGenerator PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
+# Указываем пути к заголовкам
+target_include_directories(BrainFlyer PRIVATE
+    ${SECP256K1_INCLUDE_DIR}
     ${OpenCL_INCLUDE_DIRS}
 )
 
-target_link_libraries(WalletGenerator PRIVATE
+# Линкуем библиотеки
+target_link_libraries(BrainFlyer PRIVATE
     Qt6::Core
     Qt6::Gui
     Qt6::Widgets
-    Qt6::Concurrent
-    ${OpenCL_LIBRARIES}
+    OpenCL::OpenCL
+    ${SECP256K1_LIBRARY}
+    -static-libgcc
+    -static-libstdc++
 )
 
-if (MINGW)
-    target_compile_options(WalletGenerator PRIVATE -Wall -Wextra)
-    target_link_libraries(WalletGenerator PRIVATE -mwindows -static-libgcc -static-libstdc++)
-endif()
-
-set_target_properties(WalletGenerator PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+# Оптимизация и флаги компиляции
+target_compile_options(BrainFlyer PRIVATE
+    -O3
+    -Wall
+    -Wextra
 )
+
+# Указываем CL_TARGET_OPENCL_VERSION
+target_compile_definitions(BrainFlyer PRIVATE CL_TARGET_OPENCL_VERSION=200)
+
+# Копирование kernel.cl в директорию сборки
+configure_file(${CMAKE_SOURCE_DIR}/kernel.cl ${CMAKE_BINARY_DIR}/kernel.cl COPYONLY)
+
+# Копирование libsecp256k1-5.dll в директорию сборки
+configure_file(${SECP256K1_LIBRARY_DIR}/libsecp256k1-5.dll ${CMAKE_BINARY_DIR}/libsecp256k1-5.dll COPYONLY)
+
+# Комментарий: Проверьте, используется ли статическая (secp256k1.lib) или динамическая (libsecp256k1-5.dll) линковка, чтобы избежать конфликтов.
